@@ -4,7 +4,7 @@ import './App.css';
 
 function MonsterLink(props) {
   return (
-    <button className="textbox">
+    <button className="textbox" onClick={() => props.onClick()}>
       {props.name}
     </button>
   );
@@ -12,14 +12,33 @@ function MonsterLink(props) {
 
 function MonsterList(props) {
   return (
-    <nl>
+    <p>
       {props.monsterList.map(function(monName){
         return (
-          <p><MonsterLink name={monName}/></p>
+          <p><MonsterLink name={monName} onClick={props.onClick(monName)}/></p>
         );
       })}
-    </nl>
+    </p>
   );
+}
+
+class ScanBody extends Component {
+  constructor() {
+    super();
+    this.state = {
+      showList: true,
+    }
+  }
+
+  handleNameClick(name) {
+    this.setState({showList: false});
+  }
+
+  render() {
+    if (this.state.showList) {
+      return <MonsterList monsterList={["Arzuros", "Great Jaggi", "Rathian"]} onClick={(name) => this.handleNameClick(name)}/>
+    }
+  }
 }
 
 class App extends Component {
@@ -30,9 +49,7 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h2>Mon Scan Test</h2>
         </div>
-        <p className="main">
-          <MonsterList monsterList={["Arzuros", "Great Jaggi", "Rathian"]}/>
-        </p>
+        <ScanBody/>
       </div>
     );
   }
