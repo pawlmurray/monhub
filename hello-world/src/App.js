@@ -23,7 +23,15 @@ function MonsterList(props) {
 }
 
 function MonsterBody(props) {
-  return <p>{props.monName}</p>;
+  return (
+    <p>
+      {props.monsterName}
+      <p></p>
+      <button className="textbox" onClick={() => props.onBack()}>
+        BACK
+      </button>
+    </p>
+  );
 }
 
 class ScanBody extends Component {
@@ -39,11 +47,15 @@ class ScanBody extends Component {
     this.setState({showList:false, currentMonster:name});
   }
 
+  handleBodyBackClick() {
+    this.setState({showList:true, currentMonster:null});
+  }
+
   render() {
     if (this.state.showList) {
       return <MonsterList monsterList={["Arzuros", "Great Jaggi", "Rathian"]} onClick={(name) => this.handleNameClick(name)} />;
     } else {
-      return <MonsterBody monName={this.state.currentMonster} /> ;
+      return <MonsterBody monsterName={this.state.currentMonster} onBack={() => this.handleBodyBackClick()} />;
     }
   }
 }
