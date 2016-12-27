@@ -15,11 +15,15 @@ function MonsterList(props) {
     <p>
       {props.monsterList.map(function(monName){
         return (
-          <p><MonsterLink name={monName} onClick={props.onClick(monName)}/></p>
+          <p><MonsterLink name={monName} onClick={() => props.onClick(monName)} /></p>
         );
       })}
     </p>
   );
+}
+
+function MonsterBody(props) {
+  return <p>{props.monName}</p>;
 }
 
 class ScanBody extends Component {
@@ -27,16 +31,19 @@ class ScanBody extends Component {
     super();
     this.state = {
       showList: true,
-    }
+      currentMonster: null,
+    };
   }
 
   handleNameClick(name) {
-    this.setState({showList: false});
+    this.setState({showList:false, currentMonster:name});
   }
 
   render() {
     if (this.state.showList) {
-      return <MonsterList monsterList={["Arzuros", "Great Jaggi", "Rathian"]} onClick={(name) => this.handleNameClick(name)}/>
+      return <MonsterList monsterList={["Arzuros", "Great Jaggi", "Rathian"]} onClick={(name) => this.handleNameClick(name)} />;
+    } else {
+      return <MonsterBody monName={this.state.currentMonster} /> ;
     }
   }
 }
