@@ -39,10 +39,14 @@ function MonsterBody(props) {
         BACK
       </button>
     </p>
+    
   );
 }
 
+var attackTypeList = ["Fire", "Water", "Ice", "Thunder", "Dragon", "Poison", "Sleep", "Para", "Blast"]; 
+
 class ScanBody extends Component {
+
   constructor() {
     super();
     this.state = {
@@ -68,16 +72,31 @@ class ScanBody extends Component {
     }
   }
 
+  createWeaknessDictionary(weaknesses) {
+    const weaknessDictionary = {};
+    var attackType;
+    for (attackType in attackTypeList) {
+      weaknessDictionary[attackType] = weaknesses.indexOf(attackType) >= 0;
+    }
+    return weaknessDictionary;
+  }
+
+  create
+
+
   lookupInfo(name) {
     switch (name) {
       case "Arzuros":
-        return new MonsterInfo(name, [], []);
+        var weaknesses = this.createWeaknessDictionary(["Fire, Water"]);
+        return new MonsterInfo(name, weaknesses, []);
       case "Great Jaggi":
-        return new MonsterInfo(name, [], []);
+        var weaknesses = this.createWeaknessDictionary(["Ice, Thunder"]);
+        return new MonsterInfo(name, weaknesses, []);
       case "Rathian":
-        return new MonsterInfo(name, [], []);
+        var weaknesses = this.createWeaknessDictionary(["Dragon, Poison"]);
+        return new MonsterInfo(name, weaknesses, []);
       default:
-        return new MonsterInfo("Not Found", [], []);
+        return new MonsterInfo("Not Found", {}, {});
     } 
   }
 
