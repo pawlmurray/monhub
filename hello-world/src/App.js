@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+var attackTypeList = ["Fire", "Water", "Ice", "Thunder", "Dragon", "Poison", "Sleep", "Para", "Blast"]; 
+
 function MonsterLink(props) {
   return (
     <button className="textbox" onClick={() => props.onClick()}>
@@ -34,16 +36,20 @@ function MonsterBody(props) {
   return (
     <p>
       {props.monsterInfo.name}
-      <p></p>
-      <button className="textbox" onClick={() => props.onBack()}>
-        BACK
-      </button>
+      <p>
+        {attackTypeList.map(function(attackType) {
+          return <l>{attackType} </l>
+        })}
+      </p>
+      <p>
+        <button className="textbox" onClick={() => props.onBack()}>
+          BACK
+        </button>
+      </p>
     </p>
-    
+
   );
 }
-
-var attackTypeList = ["Fire", "Water", "Ice", "Thunder", "Dragon", "Poison", "Sleep", "Para", "Blast"]; 
 
 class ScanBody extends Component {
 
