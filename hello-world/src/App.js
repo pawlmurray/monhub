@@ -22,10 +22,18 @@ function MonsterList(props) {
   );
 }
 
+class MonsterInfo {
+  constructor(name, weaknesses, attackTypes) {
+    this.name = name;
+    this.weaknesses = weaknesses;
+    this.attackTypes = attackTypes;
+  }
+}
+
 function MonsterBody(props) {
   return (
     <p>
-      {props.monsterName}
+      {props.monsterInfo.name}
       <p></p>
       <button className="textbox" onClick={() => props.onBack()}>
         BACK
@@ -44,7 +52,8 @@ class ScanBody extends Component {
   }
 
   handleNameClick(name) {
-    this.setState({showList:false, currentMonster:name});
+    const monster = this.lookupInfo(name);
+    this.setState({showList:false, currentMonster:monster});
   }
 
   handleBodyBackClick() {
@@ -55,10 +64,25 @@ class ScanBody extends Component {
     if (this.state.showList) {
       return <MonsterList monsterList={["Arzuros", "Great Jaggi", "Rathian"]} onClick={(name) => this.handleNameClick(name)} />;
     } else {
-      return <MonsterBody monsterName={this.state.currentMonster} onBack={() => this.handleBodyBackClick()} />;
+      return <MonsterBody monsterInfo={this.state.currentMonster} onBack={() => this.handleBodyBackClick()} />;
     }
   }
+
+  lookupInfo(name) {
+    switch (name) {
+      case "Arzuros":
+        return new MonsterInfo(name, [], []);
+      case "Great Jaggi":
+        return new MonsterInfo(name, [], []);
+      case "Rathian":
+        return new MonsterInfo(name, [], []);
+      default:
+        return new MonsterInfo("Not Found", [], []);
+    } 
+  }
+
 }
+
 
 class App extends Component {
   render() {
