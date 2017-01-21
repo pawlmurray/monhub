@@ -37,8 +37,11 @@ function MonsterBody(props) {
     <p>
       {props.monsterInfo.name}
       <p>
+        Weak To: 
         {attackTypeList.map(function(attackType) {
-          return <l>{attackType} </l>
+          if (props.monsterInfo.weaknesses.get(attackType)) {
+            return <l>{attackType} </l>
+          }
         })}
       </p>
       <p>
@@ -78,28 +81,34 @@ class ScanBody extends Component {
     }
   }
 
+  hasElement(arr, elementToCheck) {
+    for (var i=0; i < arr.length; i++) {
+      if (arr[i] == elementToCheck) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   createWeaknessDictionary(weaknesses) {
-    const weaknessDictionary = {};
-    var attackType;
-    for (attackType in attackTypeList) {
-      weaknessDictionary[attackType] = weaknesses.indexOf(attackType) >= 0;
+    const weaknessDictionary = new Map();
+    for(var i=0; i < attackTypeList.length; i++) {
+      weaknessDictionary.set(attackTypeList[i], this.hasElement(weaknesses, attackTypeList[i]));
     }
     return weaknessDictionary;
   }
-
-  create
 
 
   lookupInfo(name) {
     switch (name) {
       case "Arzuros":
-        var weaknesses = this.createWeaknessDictionary(["Fire, Water"]);
+        var weaknesses = this.createWeaknessDictionary(["Fire", "Water"]);
         return new MonsterInfo(name, weaknesses, []);
       case "Great Jaggi":
-        var weaknesses = this.createWeaknessDictionary(["Ice, Thunder"]);
+        var weaknesses = this.createWeaknessDictionary(["Ice", "Thunder"]);
         return new MonsterInfo(name, weaknesses, []);
       case "Rathian":
-        var weaknesses = this.createWeaknessDictionary(["Dragon, Poison"]);
+        var weaknesses = this.createWeaknessDictionary(["Dragon", "Poison"]);
         return new MonsterInfo(name, weaknesses, []);
       default:
         return new MonsterInfo("Not Found", {}, {});
