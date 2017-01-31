@@ -22,6 +22,15 @@ function MonsterList(props) {
   );
 }
 
+class MonsterInfo {
+  constructor(name, weaknesses, attackTypes, monsterDrops) {
+    this.name = name;
+    this.weaknesses = weaknesses;
+    this.attackTypes = attackTypes;
+    this.monsterDrops = monsterDrops;
+  }
+}
+
 class DropInfo {
   constructor(name, percent, source) {
     this.name = name;
@@ -36,42 +45,71 @@ function MonsterDrop(props) {
   )
 }
 
-class MonsterInfo {
-  constructor(name, weaknesses, attackTypes, monsterDrops) {
-    this.name = name;
-    this.weaknesses = weaknesses;
-    this.attackTypes = attackTypes;
-    this.monsterDrops = monsterDrops;
+function MonsterDropContainer(props) {
+  if (props.isShowing) {
+    return (
+      <l>
+        <p>
+          <button className="textbox" onClick={() => props.onClick()}>
+            Hide Drops
+          </button>
+        </p>
+        {props.monsterDrops.map(function(drop) {
+          return <p><MonsterDrop name={drop.name} percent={drop.percent} source={drop.source} /></p>;
+        })}
+      </l>
+    )
+  } else {
+    return (
+      <p>
+        <button className="textbox" onClick={() => props.onClick()}>
+          Show Drops
+        </button>
+      </p>
+    )
   }
 }
 
-function MonsterBody(props) {
-  return (
-    <p>
-      {props.monsterInfo.name}
-      <p>
-        Weaknesses: 
-        {props.monsterInfo.weaknesses.map(function(weakness) {
-          return <l> {weakness}</l>
-        })}
-      </p>
-      <p>
-        AttackTypes:
-        {props.monsterInfo.attackTypes.map(function(attackType) {
-          return <l> {attackType}</l>
-        })}
-      </p>
-      {props.monsterInfo.monsterDrops.map(function(drop) {
-        return <p><MonsterDrop name={drop.name} percent={drop.percent} source={drop.source} /></p>;
-      })}
-      <p>
-        <button className="textbox" onClick={() => props.onBack()}>
-          BACK
-        </button>
-      </p>
-    </p>
+class MonsterBody extends Component {
 
-  );
+  constructor() {
+    super();
+    this.state = {
+      showingDrops: false,
+    };
+  }
+
+  clickDropContainer() {
+    this.setState({showingDrops:!this.state.showingDrops});
+  }
+
+  render() {
+    return (
+      <p>
+        {this.props.monsterInfo.name}
+        <p>
+          Weaknesses: 
+          {this.props.monsterInfo.weaknesses.map(function(weakness) {
+            return <l> {weakness}</l>
+          })}
+        </p>
+        <p>
+          AttackTypes:
+          {this.props.monsterInfo.attackTypes.map(function(attackType) {
+            return <l> {attackType}</l>
+          })}
+        </p>
+        <MonsterDropContainer isShowing={this.state.showingDrops} 
+                              monsterDrops={this.props.monsterInfo.monsterDrops} 
+                              onClick={() => this.clickDropContainer()} />
+        <p>
+          <button className="textbox" onClick={() => this.props.onBack()}>
+            BACK
+          </button>
+        </p>
+      </p>
+    );
+  }
 }
 
 class ScanBody extends Component {
@@ -137,7 +175,7 @@ class App extends Component {
       <div className="App">
         <div className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <h2>Mon Scan Test</h2>
+          <h2>Mon Hub Test</h2>
         </div>
         <ScanBody/>
       </div>
