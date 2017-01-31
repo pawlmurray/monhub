@@ -7,7 +7,7 @@ function MonsterLink(props) {
     <button className="textbox" onClick={() => props.onClick()}>
       {props.name}
     </button>
-  );
+  )
 }
 
 function MonsterList(props) {
@@ -16,10 +16,10 @@ function MonsterList(props) {
       {props.monsterList.map(function(monName){
         return (
           <p><MonsterLink name={monName} onClick={() => props.onClick(monName)} /></p>
-        );
+        )
       })}
     </p>
-  );
+  )
 }
 
 class MonsterInfo {
@@ -55,7 +55,7 @@ function MonsterDropContainer(props) {
           </button>
         </p>
         {props.monsterDrops.map(function(drop) {
-          return <p><MonsterDrop name={drop.name} percent={drop.percent} source={drop.source} /></p>;
+          return <p><MonsterDrop name={drop.name} percent={drop.percent} source={drop.source} /></p>
         })}
       </l>
     )
@@ -108,7 +108,7 @@ class MonsterBody extends Component {
           </button>
         </p>
       </p>
-    );
+    )
   }
 }
 
@@ -133,9 +133,9 @@ class ScanBody extends Component {
 
   render() {
     if (this.state.showList) {
-      return <MonsterList monsterList={["Barioth", "Rathalos", "Zinogre"]} onClick={(name) => this.handleNameClick(name)} />;
+      return <MonsterList monsterList={["Barioth", "Rathalos", "Zinogre"]} onClick={(name) => this.handleNameClick(name)} />
     } else {
-      return <MonsterBody monsterInfo={this.state.currentMonster} onBack={() => this.handleBodyBackClick()} />;
+      return <MonsterBody monsterInfo={this.state.currentMonster} onBack={() => this.handleBodyBackClick()} />
     }
   }
 
@@ -179,7 +179,7 @@ class App extends Component {
         </div>
         <ScanBody/>
       </div>
-    );
+    )
   }
 }
 
