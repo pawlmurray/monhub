@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-var attackTypeList = ["Fire", "Water", "Ice", "Thunder", "Dragon", "Poison", "Sleep", "Para", "Blast"]; 
-
 function MonsterLink(props) {
   return (
     <button className="textbox" onClick={() => props.onClick()}>
@@ -24,6 +22,12 @@ function MonsterList(props) {
   );
 }
 
+function MonsterDrop(props) {
+  return (
+    <l>{props.name}    {props.percent}%    {props.source}</l>
+  )
+}
+
 class MonsterInfo {
   constructor(name, weaknesses, attackTypes) {
     this.name = name;
@@ -37,11 +41,15 @@ function MonsterBody(props) {
     <p>
       {props.monsterInfo.name}
       <p>
-        Weak To: 
-        {attackTypeList.map(function(attackType) {
-          if (props.monsterInfo.weaknesses.get(attackType)) {
-            return <l>{attackType} </l>
-          }
+        Weaknesses: 
+        {props.monsterInfo.weaknesses.map(function(weakness) {
+          return <l> {weakness}</l>
+        })}
+      </p>
+      <p>
+        AttackTypes:
+        {props.monsterInfo.attackTypes.map(function(attackType) {
+          return <l> {attackType}</l>
         })}
       </p>
       <p>
@@ -75,46 +83,30 @@ class ScanBody extends Component {
 
   render() {
     if (this.state.showList) {
-      return <MonsterList monsterList={["Arzuros", "Great Jaggi", "Rathian"]} onClick={(name) => this.handleNameClick(name)} />;
+      return <MonsterList monsterList={["Barioth", "Rathalos", "Zinogre"]} onClick={(name) => this.handleNameClick(name)} />;
     } else {
       return <MonsterBody monsterInfo={this.state.currentMonster} onBack={() => this.handleBodyBackClick()} />;
     }
   }
 
-  hasElement(arr, elementToCheck) {
-    for (var i=0; i < arr.length; i++) {
-      if (arr[i] == elementToCheck) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  createWeaknessDictionary(weaknesses) {
-    const weaknessDictionary = new Map();
-    for(var i=0; i < attackTypeList.length; i++) {
-      weaknessDictionary.set(attackTypeList[i], this.hasElement(weaknesses, attackTypeList[i]));
-    }
-    return weaknessDictionary;
-  }
-
-
   lookupInfo(name) {
     switch (name) {
-      case "Arzuros":
-        var weaknesses = this.createWeaknessDictionary(["Fire", "Water"]);
-        return new MonsterInfo(name, weaknesses, []);
-      case "Great Jaggi":
-        var weaknesses = this.createWeaknessDictionary(["Ice", "Thunder"]);
-        return new MonsterInfo(name, weaknesses, []);
-      case "Rathian":
-        var weaknesses = this.createWeaknessDictionary(["Dragon", "Poison"]);
-        return new MonsterInfo(name, weaknesses, []);
+      case "Barioth":
+        var weaknesses = ["Fire", "Water"];
+        var attackTypes =["Ice"]
+        return new MonsterInfo(name, weaknesses, attackTypes);
+      case "Rathalos":
+        var weaknesses = ["Dragon", "Thunder"];
+        var attackTypes = ["Fire"]
+        return new MonsterInfo(name, weaknesses, attackTypes);
+      case "Zinogre":
+        var weaknesses = ["Fire"];
+        var attackTypes = ["Thunder"];
+        return new MonsterInfo(name, weaknesses, attackTypes);
       default:
-        return new MonsterInfo("Not Found", {}, {});
+        return new MonsterInfo("Not Found", [], []);
     } 
   }
-
 }
 
 
